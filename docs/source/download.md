@@ -12,6 +12,14 @@ official Apache DataFusion releases are provided as source artifacts.
 The latest source release is [41.0.0][source-link] ([asc][asc-link],
 [sha512][sha512-link]).
 
+<!---wlf wlek wlekd we
+wed
+we
+dw
+ed
+we
+-->
+
 [source-link]: https://www.apache.org/dyn/closer.lua/datafusion/datafusion-41.0.0/apache-datafusion-41.0.0.tar.gz?action=download
 [asc-link]: https://downloads.apache.org/datafusion/datafusion-41.0.0/apache-datafusion-41.0.0.tar.gz.asc
 [sha512-link]: https://downloads.apache.org/datafusion/datafusion-41.0.0/apache-datafusion-41.0.0.tar.gz.sha512

@@ -2,7 +2,7 @@
 
 # Working with `Expr`s
 
-<!-- https://github.com/apache/datafusion/issues/7304 -->
+
 
 `Expr` is short for "expression". It is a core abstraction in DataFusion for representing a computation, and follows the standard "expression tree" abstraction found in most compilers and databases.
 

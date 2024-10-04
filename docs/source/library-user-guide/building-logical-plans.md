@@ -90,7 +90,7 @@ Here are some examples of transformation methods, but for a full list, refer to 
 
 The following example demonstrates building the same simple query plan as the previous example, with a table scan followed by a filter.
 
-<!-- source for this example is in datafusion_docs::library_logical_plan::plan_builder_1 -->
+
 
 ```rust
 use datafusion::common::DataFusionError;

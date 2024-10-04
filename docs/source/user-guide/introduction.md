@@ -75,7 +75,7 @@ parellelized streaming execution plans, file format support, etc.
 
 Here are some active projects using DataFusion:
 
- <!-- "Active" means github repositories that had at least one commit in the last 6 months -->
+ 
 
 - [Arroyo](https://github.com/ArroyoSystems/arroyo) Distributed stream processing engine in Rust
 - [Ballista](https://github.com/apache/datafusion-ballista) Distributed SQL Query Engine

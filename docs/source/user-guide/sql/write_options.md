@@ -33,10 +33,7 @@ When running `INSERT INTO my_table ...`, the options from the `CREATE TABLE` wil
 
 Finally, options can be passed when running a `COPY` command.
 
-<!--
- Test the following example with:
- CREATE TABLE source_table AS VALUES ('1','2','3','4');
--->
+
 
 ```sql
 COPY source_table
