@@ -291,26 +291,14 @@ impl Unparser<'_> {
                 expr,
                 pattern,
                 escape_char,
-                case_insensitive,
-            }) => {
-                if *case_insensitive {
-                    Ok(ast::Expr::ILike {
-                        negated: *negated,
-                        expr: Box::new(self.expr_to_sql_inner(expr)?),
-                        pattern: Box::new(self.expr_to_sql_inner(pattern)?),
-                        escape_char: escape_char.map(|c| c.to_string()),
-                        any: false,
-                    })
-                } else {
-                    Ok(ast::Expr::Like {
-                        negated: *negated,
-                        expr: Box::new(self.expr_to_sql_inner(expr)?),
-                        pattern: Box::new(self.expr_to_sql_inner(pattern)?),
-                        escape_char: escape_char.map(|c| c.to_string()),
-                        any: false,
-                    })
-                }
-            }
+                case_insensitive: _,
+            }) => Ok(ast::Expr::Like {
+                negated: *negated,
+                expr: Box::new(self.expr_to_sql_inner(expr)?),
+                pattern: Box::new(self.expr_to_sql_inner(pattern)?),
+                escape_char: escape_char.map(|c| c.to_string()),
+                any: false,
+            }),
 
             Expr::AggregateFunction(agg) => {
                 let func_name = agg.func.name();
