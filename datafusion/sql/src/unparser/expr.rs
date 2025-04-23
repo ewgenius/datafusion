@@ -1729,16 +1729,6 @@ mod tests {
                     expr: Box::new(col("a")),
                     pattern: Box::new(lit("foo")),
                     escape_char: Some('o'),
-                    case_insensitive: false,
-                }),
-                r#"a LIKE 'foo' ESCAPE 'o'"#,
-            ),
-            (
-                Expr::SimilarTo(Like {
-                    negated: false,
-                    expr: Box::new(col("a")),
-                    pattern: Box::new(lit("foo")),
-                    escape_char: Some('o'),
                     case_insensitive: true,
                 }),
                 r#"a LIKE 'foo' ESCAPE 'o'"#,
