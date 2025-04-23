@@ -312,6 +312,7 @@ impl Unparser<'_> {
                 expr: Box::new(self.expr_to_sql_inner(expr)?),
                 pattern: Box::new(self.expr_to_sql_inner(pattern)?),
                 escape_char: escape_char.map(|c| c.to_string()),
+                any: false,
             }),
             Expr::Like(Like {
                 negated,
@@ -326,6 +327,7 @@ impl Unparser<'_> {
                         expr: Box::new(self.expr_to_sql_inner(expr)?),
                         pattern: Box::new(self.expr_to_sql_inner(pattern)?),
                         escape_char: escape_char.map(|c| c.to_string()),
+                        any: false,
                     })
                 } else {
                     Ok(ast::Expr::Like {
@@ -333,6 +335,7 @@ impl Unparser<'_> {
                         expr: Box::new(self.expr_to_sql_inner(expr)?),
                         pattern: Box::new(self.expr_to_sql_inner(pattern)?),
                         escape_char: escape_char.map(|c| c.to_string()),
+                        any: false,
                     })
                 }
             }
