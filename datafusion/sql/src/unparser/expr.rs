@@ -307,19 +307,36 @@ impl Unparser<'_> {
                 pattern,
                 escape_char,
                 case_insensitive: _,
-            })
-            | Expr::Like(Like {
-                negated,
-                expr,
-                pattern,
-                escape_char,
-                case_insensitive: _,
             }) => Ok(ast::Expr::Like {
                 negated: *negated,
                 expr: Box::new(self.expr_to_sql_inner(expr)?),
                 pattern: Box::new(self.expr_to_sql_inner(pattern)?),
                 escape_char: escape_char.map(|c| c.to_string()),
             }),
+            Expr::Like(Like {
+                negated,
+                expr,
+                pattern,
+                escape_char,
+                case_insensitive,
+            }) => {
+                if *case_insensitive {
+                    Ok(ast::Expr::ILike {
+                        negated: *negated,
+                        expr: Box::new(self.expr_to_sql_inner(expr)?),
+                        pattern: Box::new(self.expr_to_sql_inner(pattern)?),
+                        escape_char: escape_char.map(|c| c.to_string()),
+                    })
+                } else {
+                    Ok(ast::Expr::Like {
+                        negated: *negated,
+                        expr: Box::new(self.expr_to_sql_inner(expr)?),
+                        pattern: Box::new(self.expr_to_sql_inner(pattern)?),
+                        escape_char: escape_char.map(|c| c.to_string()),
+                    })
+                }
+            }
+
             Expr::AggregateFunction(agg) => {
                 let func_name = agg.func.name();
 
@@ -1692,9 +1709,29 @@ mod tests {
                     expr: Box::new(col("a")),
                     pattern: Box::new(lit("foo")),
                     escape_char: Some('o'),
-                    case_insensitive: true,
+                    case_insensitive: false,
                 }),
                 r#"a NOT LIKE 'foo' ESCAPE 'o'"#,
+            ),
+            (
+                Expr::Like(Like {
+                    negated: true,
+                    expr: Box::new(col("a")),
+                    pattern: Box::new(lit("foo")),
+                    escape_char: Some('o'),
+                    case_insensitive: true,
+                }),
+                r#"a NOT ILIKE 'foo' ESCAPE 'o'"#,
+            ),
+            (
+                Expr::SimilarTo(Like {
+                    negated: false,
+                    expr: Box::new(col("a")),
+                    pattern: Box::new(lit("foo")),
+                    escape_char: Some('o'),
+                    case_insensitive: false,
+                }),
+                r#"a LIKE 'foo' ESCAPE 'o'"#,
             ),
             (
                 Expr::SimilarTo(Like {

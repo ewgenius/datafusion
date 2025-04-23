@@ -873,3 +873,48 @@ fn test_with_offset0() {
 fn test_with_offset95() {
     sql_round_trip(MySqlDialect {}, "select 1 offset 95", "SELECT 1 OFFSET 95");
 }
+
+#[test]
+fn test_like_filters() {
+    sql_round_trip(
+        GenericDialect {},
+        r#"SELECT * FROM person WHERE first_name LIKE '%John%'"#,
+        r#"SELECT * FROM person WHERE person.first_name LIKE '%John%'"#,
+    );
+
+    sql_round_trip(
+        GenericDialect {},
+        r#"SELECT * FROM person WHERE first_name ILIKE '%john%'"#,
+        r#"SELECT * FROM person WHERE person.first_name ILIKE '%john%'"#,
+    );
+
+    sql_round_trip(
+        GenericDialect {},
+        r#"SELECT * FROM person WHERE first_name NOT LIKE 'A%'"#,
+        r#"SELECT * FROM person WHERE person.first_name NOT LIKE 'A%'"#,
+    );
+
+    sql_round_trip(
+        GenericDialect {},
+        r#"SELECT * FROM person WHERE first_name NOT ILIKE 'a%'"#,
+        r#"SELECT * FROM person WHERE person.first_name NOT ILIKE 'a%'"#,
+    );
+
+    sql_round_trip(
+        GenericDialect {},
+        r#"SELECT * FROM person WHERE first_name LIKE 'A!_%' ESCAPE '!'"#,
+        r#"SELECT * FROM person WHERE person.first_name LIKE 'A!_%' ESCAPE '!'"#,
+    );
+
+    sql_round_trip(
+        GenericDialect {},
+        r#"SELECT * FROM person WHERE first_name NOT LIKE 'A!_%' ESCAPE '!'"#,
+        r#"SELECT * FROM person WHERE person.first_name NOT LIKE 'A!_%' ESCAPE '!'"#,
+    );
+
+    sql_round_trip(
+        GenericDialect {},
+        r#"SELECT * FROM person WHERE first_name NOT ILIKE 'A!_%' ESCAPE '!'"#,
+        r#"SELECT * FROM person WHERE person.first_name NOT ILIKE 'A!_%' ESCAPE '!'"#,
+    );
+}
